@@ -1,0 +1,4 @@
+//Stream
+data
+end
+err - if stream or data is not available 
