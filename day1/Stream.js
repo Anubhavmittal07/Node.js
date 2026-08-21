@@ -12,3 +12,4 @@ readStream.on('end',()=>{
     writeStream.close()
 })
 
+//writeStream.on()
