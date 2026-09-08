@@ -1,7 +1,10 @@
-const express=require('express')
+const express=require('express');
+const checkrole = require('../middleware/role');
 const router = express.Router();
 // const app = express();
 // app.use(express.json());
+
+
 
 let students = [
         {
@@ -23,28 +26,34 @@ let students = [
             course:'Physics'
         },
 ];
-router.get('/', (req, res) => {
-    res.json(students);
-});
+
+router.get('/', checkrole('student', 'teacher', 'admin'),(req,res)=>{
+    res.json(students)
+})
+
+// router.get('/', (req, res) => {
+//     res.json(students);
+// });
 
 //get student by course
-router.get('/search', (req, res) => {
-    const course = req.query.course;
-    const filteredStudents = students.filter(s => s.course.toLowerCase() === course.toLowerCase());
-    res.json(filteredStudents);
-});
+// router.get('/search', (req, res) => {
+//     const course = req.query.course;
+//     const filteredStudents = students.filter(s => s.course.toLowerCase() === course.toLowerCase());
+//     res.json(filteredStudents);
+// });
 
 
-router.get('/:id', (req, res) => {
-    const studentId = parseInt(req.params.id);
-    const student = students.find(s => s.id === studentId);
-    if (student) {
-        res.json(student);
-    } else {
-        res.status(404).json({ message: 'Student not found' });
-    }
-});
-router.post('/', (req, res) => {
+// router.get('/:id', (req, res) => {
+//     const studentId = parseInt(req.params.id);
+//     const student = students.find(s => s.id === studentId);
+//     if (student) {
+//         res.json(student);
+//     } else {
+//         res.status(404).json({ message: 'Student not found' });
+//     }
+// });
+
+router.post('/', checkrole('teacher', 'admin'),(req, res) => {
     const newStudent = {
         id: students.length + 1,
         name: req.body.name,
@@ -56,7 +65,7 @@ router.post('/', (req, res) => {
         message: 'Student added successfully',
     });
 });
-router.delete('/:id',(req,res)=>{
+router.delete('/:id',checkrole('admin'),(req,res)=>{
     const studentId=parseInt(req.params.id);
     const studentIndex=students.findIndex(s=>s.id===studentId);
     if(studentIndex!==-1){
@@ -67,7 +76,7 @@ router.delete('/:id',(req,res)=>{
     }   
 });
 
-router.put('/:id',(req,res)=>{
+router.put('/:id',checkrole('teacher','admin'),(req,res)=>{
     const studentId=parseInt(req.params.id);
     const studentIndex=students.findIndex(s=>s.id===studentId);
     if(!studentIndex){

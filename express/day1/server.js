@@ -3,6 +3,10 @@ const app=express()
 const studentRoute = require('./routes/studentRoutes')
 app.use(express.json())//middleware
 
+app.use((req,res,next)=>{
+    
+})
+
 app.use('/students',studentRoute)
 
 // let students = [
