@@ -1,11 +1,11 @@
 //callback function
 const checkrole = (...allowedroles)=>{
     (req,res,next)=>{
-        const role = req.header.role;
+        const role = req.header("role");
         if(!role){
             return res.status(403).json({message:"This role is not provided!"})
         }
-        if(allowedroles.includes()){
+        if(allowedroles.includes(role)){
             next();
         }
         else{

@@ -88,19 +88,19 @@ router.put('/:id',checkrole('teacher','admin'),(req,res)=>{
     res.json({message:'Student updated successfully'});
 });
 
-router.patch("/:id",(req,res)=>{
-    const studentId=parseInt(req.params.id);
-    const studentIndex=students.findIndex(s=>s.id===studentId);
-    if(req.body.name!==undefined){
-        students[studentIndex].name=req.body.name;
-    }
-    if(req.body.age!==undefined){
-        students[studentIndex].age=req.body.age;
-    }
-    if(req.body.course!==undefined){
-        students[studentIndex].course=req.body.course;
-    }
-    res.json({message:'Student updated successfully'});
-});
+// router.patch("/:id",(req,res)=>{
+//     const studentId=parseInt(req.params.id);
+//     const studentIndex=students.findIndex(s=>s.id===studentId);
+//     if(req.body.name!==undefined){
+//         students[studentIndex].name=req.body.name;
+//     }
+//     if(req.body.age!==undefined){
+//         students[studentIndex].age=req.body.age;
+//     }
+//     if(req.body.course!==undefined){
+//         students[studentIndex].course=req.body.course;
+//     }
+//     res.json({message:'Student updated successfully'});
+// });
 
 module.exports=router; //--> export default router
