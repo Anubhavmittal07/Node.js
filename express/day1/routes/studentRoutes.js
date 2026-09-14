@@ -27,8 +27,19 @@ let students = [
         },
 ];
 
-router.get('/', checkrole('student', 'teacher', 'admin'),(req,res)=>{
+router.get('/', checkrole('student', 'teacher', 'admin'),async(req,res)=>{
+    students=StudentModel.find()
     res.json(students)
+})
+router.get('/:id', checkrole('student', 'teacher', 'admin'),(req,res)=>{
+    const id=parseInt(req.params.id)
+    const stud=students.find(student=>student.id===id)
+    if(!stud){
+        res.status(404).json({
+            message:"Student not found"
+        })
+    }
+    res.json(stud)
 })
 
 // router.get('/', (req, res) => {

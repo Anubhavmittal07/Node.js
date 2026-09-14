@@ -1,13 +1,26 @@
+require('dotenv').config()
 const express = require('express')
 const app=express()
+const mongoose = require('mongoose')
+const PORT= process.env.PORT||3030
+
 const studentRoute = require('./routes/studentRoutes')
 app.use(express.json())//middleware
+app.use('/students',studentRoute)
 
+
+mongoose.connect(process.env.MONGO_URL)
+.then(()=>{
+    
+    console.log("Database connected")
+})
+.catch((err)=>{
+    console.log("DB error", err)
+})
 // app.use((req,res,next)=>{
     
 // })
 
-app.use('/students',studentRoute)
 
 // let students = [
 //     {
