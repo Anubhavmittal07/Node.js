@@ -6,40 +6,52 @@ const router = express.Router();
 
 
 
-let students = [
-        {
-            id:1,
-            name:'John Doe', 
-            age:20,
-            course:'Computer Science'
-        },
-        {
-            id:2,
-            name:'Jane Smith',
-            age:22,
-            course:'Mathematics'
-        },
-        {
-            id:3,   
-            name:'Bob Johnson',
-            age:21,
-            course:'Physics'
-        },
-];
+// let students = [
+//         {
+//             id:1,
+//             name:'John Doe', 
+//             age:20,
+//             course:'Computer Science'
+//         },
+//         {
+//             id:2,
+//             name:'Jane Smith',
+//             age:22,
+//             course:'Mathematics'
+//         },
+//         {
+//             id:3,   
+//             name:'Bob Johnson',
+//             age:21,
+//             course:'Physics'
+//         },
+// ];
 
 router.get('/', checkrole('student', 'teacher', 'admin'),async(req,res)=>{
-    students=StudentModel.find()
-    res.json(students)
-})
-router.get('/:id', checkrole('student', 'teacher', 'admin'),(req,res)=>{
-    const id=parseInt(req.params.id)
-    const stud=students.find(student=>student.id===id)
-    if(!stud){
-        res.status(404).json({
-            message:"Student not found"
-        })
+    try{
+        const students=await StudentModel.find()
+        res.json(students)
     }
-    res.json(stud)
+    catch(err){
+        res.status(500).json({message:err.message})
+    }
+})
+router.get('/:id', checkrole('student', 'teacher', 'admin'),async(req,res)=>{
+
+    const id=parseInt(req.params.id)
+    try{
+        const stud=await StudentModel.findById(id)  
+        // const stud=students.find(student=>student.id===id)
+        if(!stud){
+            return res.status(404).json({
+                message:"Student not found"
+            })
+        }
+        res.json(stud)
+    }
+    catch(err){
+        res.status(500).json({message:err.message})
+    }
 })
 
 // router.get('/', (req, res) => {
@@ -64,7 +76,7 @@ router.get('/:id', checkrole('student', 'teacher', 'admin'),(req,res)=>{
 //     }
 // });
 
-router.post('/', checkrole('teacher', 'admin'),(req, res) => {
+router.post('/', checkrole('teacher', 'admin'),async(req, res) => {
     const newStudent = {
         id: students.length + 1,
         name: req.body.name,
@@ -78,7 +90,7 @@ router.post('/', checkrole('teacher', 'admin'),(req, res) => {
 });
 router.delete('/:id',checkrole('admin'),(req,res)=>{
     const studentId=parseInt(req.params.id);
-    const studentIndex=students.findIndex(s=>s.id===studentId);
+    const studentIndex=students.findbyIdDelete(studentId);
     if(studentIndex!==-1){
         students.splice(studentIndex,1);
         res.json({message:'Student deleted successfully'});
@@ -89,7 +101,7 @@ router.delete('/:id',checkrole('admin'),(req,res)=>{
 
 router.put('/:id',checkrole('teacher','admin'),(req,res)=>{
     const studentId=parseInt(req.params.id);
-    const studentIndex=students.findIndex(s=>s.id===studentId);
+    const studentIndex=students.findByIdUpdate(studentId);
     if(!studentIndex){
         res.status(404).json({message:'Student not found'});
     }
