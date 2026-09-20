@@ -1,5 +1,5 @@
 //callback function
-const checkrole = (...allowedroles)=>{
+const checkrole = (...allowedroles)=>
     (req,res,next)=>{
         const role = req.header("role");
         if(!role){
@@ -14,6 +14,6 @@ const checkrole = (...allowedroles)=>{
             })
         }
     }
-}
+
 
 module.exports=checkrole

@@ -12,7 +12,7 @@ app.use('/students',studentRoute)
 mongoose.connect(process.env.MONGO_URL)
 .then(()=>{
     
-    console.log("Database connected")
+    console.log("Database conneted")
 })
 .catch((err)=>{
     console.log("DB error", err)
