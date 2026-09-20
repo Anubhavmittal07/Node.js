@@ -1,6 +1,6 @@
 //Code to demo transform using pipe
-import fs from 'fs'
-import zlib from 'zlib'
+const fs=require('fs')
+const zlib=require('zlib')
 
 //Create read stream
 const readStream= fs.createReadStream("./test1.txt")
