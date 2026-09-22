@@ -166,7 +166,6 @@ app.get('/api/feedback/summary', (req, res) => {
     });
 
 
-    // Count submitted responses
     feedback.forEach(submission => {
 
         submission.responses.forEach(response => {
@@ -180,7 +179,6 @@ app.get('/api/feedback/summary', (req, res) => {
         });
 
     });
-
 
     res.status(200).json(
         Object.values(summary)
