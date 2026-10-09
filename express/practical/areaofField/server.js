@@ -6,9 +6,6 @@ const port=3000;
 
 app.get('/area/square',(req,res)=>{
     const side=parseFloat(req.query.side);
-    // if(isNaN(side) || side<=0){
-    //     return res.status(400).json({error:"Invalid side length"});
-    // }
     
     const area=side*side;
     res.json({shape:"square",area:area});
